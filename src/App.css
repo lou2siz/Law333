@@ -17,16 +17,18 @@ body {
 .app-header {
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
-  background: rgba(255, 255, 255, 0.1);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.18);
+  background: rgba(10, 10, 10, 0.95);
+  border-bottom: 1px solid rgba(100, 255, 218, 0.1);
   padding: 15px 0;
+  color: var(--text-primary);
 }
 
 .complaint-card {
   animation: fadeIn 0.5s ease-out;
-  background: rgba(10, 25, 47, 0.85);
-  border: 1px solid rgba(100, 255, 218, 0.2);
+  background: rgba(17, 17, 17, 0.95);
+  border: 1px solid rgba(100, 255, 218, 0.1);
   position: relative;
+  color: var(--text-primary);
 }
 
 .complaint-card::before {
@@ -54,10 +56,16 @@ body {
 }
 
 .search-input {
-  background: rgba(255, 255, 255, 0.95);
+  background: rgba(17, 17, 17, 0.95);
   backdrop-filter: blur(4px);
-  border: 1px solid rgba(255, 255, 255, 0.18);
+  border: 1px solid rgba(100, 255, 218, 0.2);
   box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
+  color: var(--text-primary);
+}
+
+.search-input:focus {
+  border-color: var(--accent-primary);
+  box-shadow: 0 0 15px rgba(100, 255, 218, 0.1);
 }
 
 .breaking-news {
@@ -81,6 +89,8 @@ body {
   position: relative;
   overflow: hidden;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  background: rgba(17, 17, 17, 0.95);
+  border: 1px solid rgba(100, 255, 218, 0.2);
 }
 
 .status-bubble::after {
@@ -319,19 +329,16 @@ body {
 }
 
 ::-webkit-scrollbar-track {
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 4px;
+  background: rgba(17, 17, 17, 0.95);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: linear-gradient(180deg, #3498db, #2980b9);
-  border-radius: 4px;
-  border: 2px solid transparent;
-  background-clip: padding-box;
+  background: linear-gradient(180deg, var(--accent-primary), var(--accent-secondary));
+  border: 2px solid var(--bg-primary);
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(180deg, #2980b9, #2c3e50);
+  background: linear-gradient(180deg, var(--accent-secondary), var(--accent-primary));
 }
 
 /* Matrix-style text effect for important elements */
@@ -558,9 +565,9 @@ body {
 
 .dashboard-controls {
   padding: 1rem 2rem;
-  background: rgba(255, 255, 255, 0.8);
+  background: rgba(17, 17, 17, 0.95);
   backdrop-filter: blur(10px);
-  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  border-bottom: 1px solid rgba(100, 255, 218, 0.1);
 }
 
 .search-container {
@@ -573,9 +580,10 @@ body {
 .search-input {
   flex: 1;
   padding: 10px 15px;
-  border: 1px solid rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(100, 255, 218, 0.2);
   border-radius: 8px;
   font-size: 1rem;
+  color: var(--text-primary);
 }
 
 .sort-select {
@@ -595,16 +603,17 @@ body {
 
 .view-toggle {
   padding: 8px 16px;
-  border: 1px solid rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(100, 255, 218, 0.2);
   border-radius: 6px;
-  background: white;
+  background: rgba(10, 10, 10, 0.95);
   cursor: pointer;
   transition: all 0.3s ease;
+  color: var(--text-primary);
 }
 
 .view-toggle.active {
-  background: var(--gradient-primary);
-  color: white;
+  background: var(--accent-primary);
+  color: var(--bg-primary);
   border: none;
 }
 
@@ -613,64 +622,154 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: var(--gradient-primary);
+  background: var(--gradient-cyber);
+  position: relative;
+  overflow: hidden;
+}
+
+.cyber-background {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(45deg, #0a192f 0%, #112240 50%, #233554 100%);
+  overflow: hidden;
+}
+
+.grid-overlay {
+  position: absolute;
+  inset: 0;
+  background-image: 
+    linear-gradient(90deg, rgba(100, 255, 218, 0.1) 1px, transparent 1px),
+    linear-gradient(rgba(100, 255, 218, 0.1) 1px, transparent 1px);
+  background-size: 30px 30px;
+  animation: gridMove 20s linear infinite;
+}
+
+.scan-line {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    transparent 50%,
+    rgba(100, 255, 218, 0.05) 50%
+  );
+  background-size: 100% 4px;
+  animation: scanline 10s linear infinite;
 }
 
 .login-card {
-  background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(10px);
-  padding: 2.5rem;
-  border-radius: 15px;
-  box-shadow: var(--card-shadow);
+  position: relative;
   width: 100%;
-  max-width: 400px;
+  max-width: 420px;
+  background: rgba(10, 25, 47, 0.85);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(100, 255, 218, 0.2);
+  border-radius: 12px;
+  padding: 2.5rem;
+  box-shadow: 0 0 30px rgba(100, 255, 218, 0.1);
+  z-index: 1;
+}
+
+.card-header {
   text-align: center;
-}
-
-.login-card h2 {
-  color: #1a2a6c;
   margin-bottom: 2rem;
-  font-size: 2rem;
+  position: relative;
 }
 
-.input-group {
-  margin-bottom: 1.5rem;
+.login-logo {
+  width: 120px;
+  height: auto;
+  margin-bottom: 1rem;
+  filter: drop-shadow(0 0 10px rgba(100, 255, 218, 0.3));
 }
 
-.input-group input {
+.cyber-label {
+  color: #64ffda;
+  font-size: 0.9rem;
+  margin-bottom: 0.5rem;
+  display: block;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.cyber-input {
   width: 100%;
   padding: 12px;
-  border: 1px solid rgba(0, 0, 0, 0.1);
-  border-radius: 8px;
+  background: rgba(100, 255, 218, 0.05);
+  border: 1px solid rgba(100, 255, 218, 0.2);
+  border-radius: 6px;
+  color: #fff;
   font-size: 1rem;
   transition: all 0.3s ease;
 }
 
-.input-group input:focus {
-  border-color: #3498db;
-  box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+.cyber-input:focus {
   outline: none;
+  border-color: #64ffda;
+  box-shadow: 0 0 15px rgba(100, 255, 218, 0.2);
 }
 
-.login-card button {
+.cyber-button {
   width: 100%;
-  padding: 12px;
-  background: var(--gradient-primary);
-  color: white;
-  border: none;
-  border-radius: 8px;
+  padding: 14px;
+  margin-top: 1.5rem;
+  background: transparent;
+  border: 1px solid #64ffda;
+  color: #64ffda;
   font-size: 1rem;
   cursor: pointer;
-  transition: transform 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
 }
 
-.login-card button:hover {
-  transform: translateY(-2px);
+.cyber-button:hover {
+  background: rgba(100, 255, 218, 0.1);
+}
+
+.button-glitch {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(100, 255, 218, 0.3);
+  transform: translateX(-100%);
+  animation: glitch 2s infinite;
+}
+
+.loader {
+  width: 20px;
+  height: 20px;
+  border: 2px solid #64ffda;
+  border-top-color: transparent;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-right: 10px;
+}
+
+@keyframes gridMove {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(30px); }
+}
+
+@keyframes scanline {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(100vh); }
+}
+
+@keyframes glitch {
+  0% { transform: translateX(-100%); }
+  10%, 30% { transform: translateX(100%); opacity: 0.6; }
+  0%, 100% { opacity: 0; }
 }
 
 .error-message {
-  color: #e74c3c;
-  margin-bottom: 1rem;
+  color: #ff416c;
+  text-align: center;
+  margin: 1rem 0;
+  padding: 8px;
+  border: 1px solid rgba(255, 65, 108, 0.3);
+  border-radius: 4px;
+  background: rgba(255, 65, 108, 0.1);
 }
 
 /* Logo styling */
@@ -711,8 +810,8 @@ body {
 
 .news-dashboard {
   animation: slideDown 0.5s ease-out;
-  background: rgba(10, 25, 47, 0.9);
-  border: 1px solid rgba(100, 255, 218, 0.2);
+  background: rgba(17, 17, 17, 0.95);
+  border: 1px solid rgba(100, 255, 218, 0.1);
   box-shadow: var(--neon-glow);
 }
 
@@ -721,6 +820,7 @@ body {
   border-left: 2px solid #64ffda;
   position: relative;
   overflow: hidden;
+  color: var(--text-secondary);
 }
 
 .news-item::after {
@@ -764,4 +864,257 @@ body {
   0% { box-shadow: 0 0 5px rgba(100, 255, 218, 0.5); }
   50% { box-shadow: 0 0 20px rgba(100, 255, 218, 0.8); }
   100% { box-shadow: 0 0 5px rgba(100, 255, 218, 0.5); }
+}
+
+.case-title {
+  color: var(--text-primary);
+}
+
+.meta-label {
+  color: var(--text-secondary);
+}
+
+.meta-value {
+  color: var(--text-primary);
+}
+
+.action-button {
+  background: rgba(100, 255, 218, 0.1);
+  border: 1px solid rgba(100, 255, 218, 0.2);
+  color: var(--text-primary);
+}
+
+.action-button:hover {
+  background: rgba(100, 255, 218, 0.2);
+  border-color: var(--accent-primary);
+}
+
+.news-title {
+  color: var(--text-primary);
+}
+
+/* Mobile-first responsive design */
+@media (max-width: 768px) {
+  /* Login screen adjustments */
+  .login-card {
+    max-width: 90%;
+    margin: 20px;
+    padding: 1.5rem;
+  }
+
+  .login-logo {
+    width: 100px;
+  }
+
+  /* Header adjustments */
+  .app-header {
+    padding: 0.75rem 1rem;
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .app-header .logo {
+    max-height: 40px;
+    margin-bottom: 0.5rem;
+  }
+
+  .app-header h1 {
+    font-size: 1.5rem;
+    margin: 0.5rem 0;
+  }
+
+  /* Dashboard controls */
+  .dashboard-controls {
+    padding: 1rem;
+  }
+
+  .search-container {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .search-input,
+  .sort-select {
+    width: 100%;
+    max-width: none;
+  }
+
+  /* View controls */
+  .view-controls {
+    margin-top: 0.75rem;
+  }
+
+  .view-toggle {
+    padding: 6px 12px;
+    font-size: 0.9rem;
+  }
+
+  /* News dashboard */
+  .news-dashboard {
+    margin: 1rem;
+    padding: 1rem;
+  }
+
+  .news-items {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  /* Complaint grid */
+  .complaint-container {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    padding: 1rem;
+    margin-top: 0;
+  }
+
+  .complaint-card {
+    margin: 0;
+    padding: 1rem;
+  }
+
+  /* Status bubbles */
+  .status-bubble {
+    min-width: auto;
+    padding: 8px 12px;
+    font-size: 0.9rem;
+  }
+
+  /* Action buttons */
+  .quick-actions {
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .action-button {
+    width: 100%;
+    padding: 8px;
+    font-size: 0.9rem;
+  }
+
+  /* Detail view */
+  .detail-page {
+    padding: 1rem;
+  }
+
+  .detail-container {
+    padding: 1rem;
+  }
+
+  .back-button {
+    margin-bottom: 1rem;
+    width: 100%;
+  }
+}
+
+/* iPhone-specific adjustments */
+@media screen and (max-width: 428px) { /* iPhone 13 Pro Max width */
+  :root {
+    --card-hover-transform: none; /* Disable hover effects on mobile */
+  }
+
+  /* Prevent text zoom */
+  body {
+    -webkit-text-size-adjust: 100%;
+  }
+
+  /* Safe area insets for notched iPhones */
+  .app-header {
+    padding-top: env(safe-area-inset-top);
+    padding-bottom: 0.75rem;
+  }
+
+  .login-container {
+    padding-top: env(safe-area-inset-top);
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+
+  /* Improve touch targets */
+  .cyber-button,
+  .action-button,
+  .view-toggle,
+  .sort-select {
+    min-height: 44px; /* Apple's recommended minimum */
+  }
+
+  /* Adjust input fields */
+  .cyber-input {
+    font-size: 16px; /* Prevent auto-zoom on iOS */
+    padding: 12px;
+  }
+
+  /* Optimize scrolling */
+  .complaint-container {
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+
+  /* Disable hover states */
+  .complaint-card:hover,
+  .action-button:hover,
+  .cyber-button:hover {
+    transform: none;
+    box-shadow: none;
+  }
+
+  /* Optimize animations */
+  .grid-overlay,
+  .scan-line {
+    animation: none; /* Disable heavy animations on mobile */
+  }
+}
+
+/* Landscape orientation */
+@media screen and (max-height: 428px) and (orientation: landscape) {
+  .login-container {
+    align-items: flex-start;
+    padding: 1rem;
+  }
+
+  .login-card {
+    margin: 0 auto;
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+
+  .complaint-container {
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  }
+}
+
+/* Add to your existing meta viewport tag in index.html */
+
+/* Touch optimizations */
+.cyber-button,
+.action-button,
+.view-toggle,
+.sort-select,
+.complaint-card {
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Smooth scrolling for iOS */
+.complaint-container,
+.detail-container,
+.news-dashboard {
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Loading states for better UX */
+.loading-spinner {
+  margin: 20px auto;
+}
+
+/* Status indicators */
+.status-bubble {
+  touch-action: manipulation;
+}
+
+/* Prevent text selection on interactive elements */
+.action-button,
+.view-toggle,
+.cyber-button {
+  user-select: none;
+  -webkit-user-select: none;
 }
