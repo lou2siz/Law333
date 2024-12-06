@@ -207,12 +207,16 @@ function ComplaintCard({ complaint, index, viewMode }) {
 
     const handleStatusChange = (e) => {
         e.stopPropagation();
-        const nextStatus = {
-            'Pending Lawyer Review': 'Lawyer Accepted',
-            'Lawyer Accepted': 'Lawyer Rejected',
-            'Lawyer Rejected': 'Pending Lawyer Review'
-        }[status];
-        setStatus(nextStatus);
+        
+        if (status === 'Pending Lawyer Review') {
+            setStatus('Lawyer Accepted');
+        } 
+        else if (status === 'Lawyer Accepted') {
+            setStatus('Lawyer Rejected');
+        }
+        else if (status === 'Lawyer Rejected') {
+            setStatus('Pending Lawyer Review');
+        }
     };
 
     return (
