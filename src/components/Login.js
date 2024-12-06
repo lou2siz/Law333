@@ -30,10 +30,11 @@ function Login({ onLogin }) {
       </div>
 
       <div className="login-card">
-        <h2>LawSist Dashboard</h2>
-        <form onSubmit={handleSubmit}>
+        <h2 className="cyber-title">LawSist Dashboard</h2>
+        <form onSubmit={handleSubmit} className="cyber-form">
           <div className="input-group">
             <input
+              className="cyber-input"
               type="text"
               placeholder="Username"
               value={username}
@@ -42,14 +43,15 @@ function Login({ onLogin }) {
           </div>
           <div className="input-group">
             <input
+              className="cyber-input"
               type="password"
               placeholder="Password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
           </div>
-          {error && <div className="error-message">{error}</div>}
-          <button type="submit">Login</button>
+          {error && <div className="error-message cyber-error">{error}</div>}
+          <button type="submit" className="cyber-button">Login</button>
         </form>
       </div>
     </div>
