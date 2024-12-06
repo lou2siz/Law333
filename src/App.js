@@ -2,73 +2,40 @@ import React, { useEffect, useState } from 'react';
 import Papa from 'papaparse';
 import { BrowserRouter as Router, Routes, Route, useNavigate, useParams } from 'react-router-dom';
 import './App.css';
+import Login from './components/Login';
 
 function App() {
+    const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
     const [complaints, setComplaints] = useState([]);
     const [error, setError] = useState(null);
-    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        console.log("Attempting to load CSV file...");
-        Papa.parse(`${process.env.PUBLIC_URL}/LawsistViewMetadata.csv`, {
-            download: true,
-            header: false,
-            complete: (results) => {
-                try {
-                    const data = results.data;
-                    const formattedComplaints = [];
-                    
-                    // Number of columns per complaint
-                    const columnsPerComplaint = 2;
-                    // Total number of complaints
-                    const numberOfComplaints = 5;
-
-                    // Process each complaint
-                    for (let complaintIndex = 0; complaintIndex < numberOfComplaints; complaintIndex++) {
-                        const baseColumn = complaintIndex * columnsPerComplaint;
-                        
-                        formattedComplaints.push({
-                            title: data[1][baseColumn] || "No Title",
-                            description: data[2][baseColumn] || "No Description",
-                            links: {
-                                folder: data[3][baseColumn + 1] || "",
-                                complaint: data[4][baseColumn + 1] || "",
-                                exhibit: data[5][baseColumn + 1] || "",
-                                trackChanges: data[6][baseColumn + 1] || "",
-                                sourceData: data[7][baseColumn + 1] || ""
-                            },
-                            civilyzer: data[8][baseColumn + 1] || "N/A",
-                            requestDate: data[9][baseColumn + 1] || "N/A",
-                            nextRequestDate: data[10][baseColumn + 1] || "N/A",
-                            whoCalled: data[11][baseColumn + 1] || "N/A",
-                            spokeTo: data[12][baseColumn + 1] || "N/A",
-                            when: data[13][baseColumn + 1] || "N/A",
-                            result: data[14][baseColumn + 1] || "N/A"
-                        });
-                    }
-
-                    console.log("Formatted Complaints:", formattedComplaints);
-                    setComplaints(formattedComplaints);
-                    setLoading(false);
-                } catch (err) {
-                    console.error("Error parsing CSV:", err);
-                    setError(`Failed to parse CSV: ${err.message}`);
-                    setLoading(false);
-                }
-            },
-            error: (error) => {
-                console.error("Papa Parse Error:", error);
-                setError(`Failed to load CSV: ${error.message}`);
-                setLoading(false);
+        // Simulate loading data
+        setIsLoading(true);
+        setTimeout(() => {
+            try {
+                // Your data loading logic here
+                setComplaints([
+                    // Your complaint data
+                ]);
+                setIsLoading(false);
+            } catch (err) {
+                setError('Failed to load data. Please try again.');
+                setIsLoading(false);
             }
-        });
+        }, 1500);
     }, []);
 
-    if (loading) {
+    if (!isAuthenticated) {
+        return <Login onLogin={setIsAuthenticated} />;
+    }
+
+    if (isLoading) {
         return (
             <div className="loading-container">
                 <div className="loading-spinner"></div>
-                <p>Loading complaints...</p>
+                <p>Loading your dashboard...</p>
             </div>
         );
     }
@@ -76,14 +43,9 @@ function App() {
     if (error) {
         return (
             <div className="error-container">
-                <h2>Error Loading Data</h2>
+                <h2>Error</h2>
                 <p>{error}</p>
-                <button 
-                    onClick={() => window.location.reload()} 
-                    className="retry-button"
-                >
-                    Retry
-                </button>
+                <button onClick={() => window.location.reload()}>Retry</button>
             </div>
         );
     }
@@ -110,6 +72,9 @@ function ComplaintGrid({ complaints }) {
 
     return (
         <div className="App">
+            <div className="breaking-news">
+                🚨 BREAKING NEWS: Demand Dashboard is waiting for Golda!
+            </div>
             <header className="app-header">
                 <img src={`${process.env.PUBLIC_URL}/Logo.png`} alt="Logo" className="logo" />
                 <h1>Lawsist View</h1>
@@ -172,11 +137,30 @@ function ComplaintCard({ complaint, index, viewMode }) {
     const dueDate = new Date('2024-11-16');
     const today = new Date();
     const daysUntilDue = Math.ceil((dueDate - today) / (1000 * 60 * 60 * 24));
+    const [status, setStatus] = useState('Pending Lawyer Review');
     
     const getStatusClass = () => {
         if (daysUntilDue < 0) return 'status-overdue';
         if (daysUntilDue < 7) return 'status-urgent';
         return 'status-normal';
+    };
+
+    const getStatusColor = () => {
+        switch(status) {
+            case 'Lawyer Accepted': return 'status-accepted';
+            case 'Lawyer Rejected': return 'status-rejected';
+            default: return 'status-pending';
+        }
+    };
+
+    const handleStatusChange = (e) => {
+        e.stopPropagation();
+        const nextStatus = {
+            'Pending Lawyer Review': 'Lawyer Accepted',
+            'Lawyer Accepted': 'Lawyer Rejected',
+            'Lawyer Rejected': 'Pending Lawyer Review'
+        }[status];
+        setStatus(nextStatus);
     };
 
     return (
@@ -220,6 +204,11 @@ function ComplaintCard({ complaint, index, viewMode }) {
                         Details
                     </button>
                 </div>
+            </div>
+
+            <div className={`status-bubble ${getStatusColor()}`} onClick={handleStatusChange}>
+                <span className="bubble"></span>
+                {status}
             </div>
         </div>
     );
