@@ -11,20 +11,53 @@ function App() {
     const [error, setError] = useState(null);
 
     useEffect(() => {
-        // Simulate loading data
         setIsLoading(true);
-        setTimeout(() => {
-            try {
-                // Your data loading logic here
-                setComplaints([
-                    // Your complaint data
-                ]);
+        fetch(`${process.env.PUBLIC_URL}/LawsistViewMetadata.csv`)
+            .then(response => response.text())
+            .then(csvData => {
+                Papa.parse(csvData, {
+                    complete: (results) => {
+                        // Transform the CSV data into complaint objects
+                        const complaints = [];
+                        const rows = results.data;
+                        
+                        // Process 6 complaints (they're in columns)
+                        for (let i = 0; i < 6; i++) {
+                            const complaint = {
+                                title: rows[1][i * 2], // Each complaint takes 2 columns
+                                links: {
+                                    fullFolder: rows[3][i * 2 + 1],
+                                    complaint: rows[4][i * 2 + 1],
+                                    exhibit: rows[5][i * 2 + 1],
+                                    trackChanges: rows[6][i * 2 + 1],
+                                    sourceData: rows[7][i * 2 + 1],
+                                    civilyzer: rows[8][i * 2 + 1] || ''
+                                },
+                                requestDate: rows[9][i * 2 + 1]?.replace(/"/g, '') || '',
+                                nextRequestDate: rows[10][i * 2 + 1]?.replace(/"/g, '') || '',
+                                whoCalled: rows[11][i * 2 + 1] || '',
+                                spokeTo: rows[12][i * 2 + 1] || '',
+                                when: rows[13][i * 2 + 1]?.replace(/"/g, '') || '',
+                                result: rows[14][i * 2 + 1]?.replace(/"/g, '') || ''
+                            };
+                            complaints.push(complaint);
+                        }
+                        
+                        setComplaints(complaints);
+                        setIsLoading(false);
+                    },
+                    error: (error) => {
+                        console.error('Error parsing CSV:', error);
+                        setError('Failed to load case data. Please try again.');
+                        setIsLoading(false);
+                    }
+                });
+            })
+            .catch(err => {
+                console.error('Error loading CSV:', err);
+                setError('Failed to load case data. Please try again.');
                 setIsLoading(false);
-            } catch (err) {
-                setError('Failed to load data. Please try again.');
-                setIsLoading(false);
-            }
-        }, 1500);
+            });
     }, []);
 
     if (!isAuthenticated) {
@@ -76,6 +109,29 @@ function ComplaintGrid({ complaints }) {
                 <img src={`${process.env.PUBLIC_URL}/Logo.png`} alt="Logo" className="logo" />
                 <h1>Lawsist View</h1>
             </header>
+
+            <div className="news-dashboard">
+                <div className="news-title">
+                    <i className="fas fa-newspaper"></i>
+                    Demand Dashboard News
+                </div>
+                <div className="news-items">
+                    <div className="news-item">
+                        New case received: {complaints[0]?.title}
+                    </div>
+                    <div className="news-item">
+                        Next deadline: {
+                            complaints.reduce((nearest, complaint) => {
+                                const date = new Date(complaint.nextRequestDate);
+                                return !nearest || date < new Date(nearest) ? complaint.nextRequestDate : nearest;
+                            }, null)
+                        }
+                    </div>
+                    <div className="news-item">
+                        Active cases: {complaints.length}
+                    </div>
+                </div>
+            </div>
 
             <div className="dashboard-controls">
                 <div className="search-container">
@@ -133,6 +189,7 @@ function ComplaintCard({ complaint, index, viewMode }) {
     const today = new Date();
     const daysUntilDue = Math.ceil((dueDate - today) / (1000 * 60 * 60 * 24));
     const [status, setStatus] = useState('Pending Lawyer Review');
+    const [isHovered, setIsHovered] = useState(false);
     
     const getStatusClass = () => {
         if (daysUntilDue < 0) return 'status-overdue';
@@ -160,8 +217,14 @@ function ComplaintCard({ complaint, index, viewMode }) {
 
     return (
         <div 
-            className={`complaint-card ${viewMode} ${getStatusClass()}`}
+            className={`complaint-card ${viewMode} ${getStatusClass()} ${isHovered ? 'hovered' : ''}`}
+            onMouseEnter={() => setIsHovered(true)}
+            onMouseLeave={() => setIsHovered(false)}
             onClick={() => navigate(`/complaint/${index}`)}
+            style={{
+                '--hover-offset': `${index * 5}px`,
+                '--animation-delay': `${index * 0.1}s`
+            }}
         >
             <div className="card-header">
                 <div className="case-number">Case #{index + 1}</div>
