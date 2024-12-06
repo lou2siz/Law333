@@ -1497,3 +1497,55 @@ a:hover {
   color: #d27fff;
   text-shadow: 0 0 10px rgba(178, 57, 255, 0.5);
 }
+
+.warning-banner {
+  position: absolute;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(255, 140, 0, 0.1);
+  border: 1px solid #ff8c00;
+  padding: 1rem 2rem;
+  border-radius: 8px;
+  box-shadow: 0 0 20px rgba(255, 140, 0, 0.3);
+  max-width: 90%;
+  width: 600px;
+  backdrop-filter: blur(5px);
+}
+
+.warning-content {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  position: relative;
+}
+
+.warning-icon {
+  font-size: 1.5rem;
+  animation: warningPulse 2s infinite;
+}
+
+.warning-text {
+  color: #ff8c00;
+  font-size: 0.9rem;
+  margin: 0;
+  text-shadow: 0 0 10px rgba(255, 140, 0, 0.5);
+  letter-spacing: 0.5px;
+  line-height: 1.4;
+}
+
+@keyframes warningPulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.8; transform: scale(1.1); }
+}
+
+@media screen and (max-width: 768px) {
+  .warning-banner {
+    bottom: 1rem;
+    padding: 0.75rem 1rem;
+  }
+  
+  .warning-text {
+    font-size: 0.8rem;
+  }
+}

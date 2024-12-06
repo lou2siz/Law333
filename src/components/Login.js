@@ -29,6 +29,16 @@ function Login({ onLogin }) {
         </div>
       </div>
 
+      <div className="warning-banner">
+        <div className="warning-content">
+          <span className="warning-icon">⚠️</span>
+          <p className="warning-text">
+            Terms of service: Please note, this is still a heavy manual/paralegal FOIASolved dominated backend. 
+            Legal Doc Generation will be subject to manual/paralegal errors.
+          </p>
+        </div>
+      </div>
+
       <div className="login-card">
         <h2 className="cyber-title">LawSist Dashboard</h2>
         <form onSubmit={handleSubmit} className="cyber-form">
