@@ -72,31 +72,13 @@ function ComplaintGrid({ complaints }) {
 
     return (
         <div className="App">
-            <div className="breaking-news">
-                🚨 BREAKING NEWS: Demand Dashboard is waiting for Golda!
-            </div>
             <header className="app-header">
                 <img src={`${process.env.PUBLIC_URL}/Logo.png`} alt="Logo" className="logo" />
                 <h1>Lawsist View</h1>
             </header>
 
-            <div className="mobile-quick-actions">
-                <button 
-                    className={`view-toggle ${viewMode === 'grid' ? 'active' : ''}`}
-                    onClick={() => setViewMode('grid')}
-                >
-                    Grid View
-                </button>
-                <button 
-                    className={`view-toggle ${viewMode === 'list' ? 'active' : ''}`}
-                    onClick={() => setViewMode('list')}
-                >
-                    List View
-                </button>
-            </div>
-
-            <div className="search-container">
-                <div className="search-wrapper">
+            <div className="dashboard-controls">
+                <div className="search-container">
                     <input
                         type="text"
                         placeholder="Search cases..."
@@ -104,8 +86,6 @@ function ComplaintGrid({ complaints }) {
                         onChange={(e) => setSearchTerm(e.target.value)}
                         className="search-input"
                     />
-                </div>
-                <div className="filter-wrapper">
                     <select 
                         value={sortBy} 
                         onChange={(e) => setSortBy(e.target.value)}
@@ -115,6 +95,21 @@ function ComplaintGrid({ complaints }) {
                         <option value="title">Case Name</option>
                         <option value="status">Status</option>
                     </select>
+                </div>
+
+                <div className="view-controls">
+                    <button 
+                        className={`view-toggle ${viewMode === 'grid' ? 'active' : ''}`}
+                        onClick={() => setViewMode('grid')}
+                    >
+                        Grid View
+                    </button>
+                    <button 
+                        className={`view-toggle ${viewMode === 'list' ? 'active' : ''}`}
+                        onClick={() => setViewMode('list')}
+                    >
+                        List View
+                    </button>
                 </div>
             </div>
 
